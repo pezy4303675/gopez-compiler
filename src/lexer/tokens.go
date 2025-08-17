@@ -74,8 +74,18 @@ type Token struct {
 	Value string
 }
 
+func (token Token) isOneOfMany (expectedTokens ...TokenKind) bool {
+for _, expected := range expectedTokens{
+	if expected == token.Kind {
+		return true
+	}
+}
+
+return false
+}
+
 func (token Token) Debug() {
-	if token.Kind == IDENTIFIER || token.Kind == NUMBER || token.Kind == STRING {
+	if token.isOneOfMany(IDENTIFIER, NUMBER, STRING){
 		fmt.Printf("%s (%s)\n", TokenKindString(token.Kind), token.Value)
 	} else {
 		fmt.Printf("%s ()\n", TokenKindString(token.Kind))
@@ -84,7 +94,7 @@ func (token Token) Debug() {
 
 func NewToken(kind TokenKind, value string) Token {
 	return Token{
-		Kind, value
+		Kind, value 
 	}
 }
 
